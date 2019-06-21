@@ -1,0 +1,86 @@
+<form validate [formGroup]="BIUForm" autocomplete="off">
+  <label>Imie: </label>
+  <input type="text" formControlName="name"  [class.is-invalid]="(BIUForm.get('name').touched || BIUForm.get('name').dirty) && !BIUForm.get('name').valid" required/> <br />
+  <div class="isinvalid-feedback">
+    <span *ngIf="(BIUForm.get('name').touched || BIUForm.get('name').dirty) && BIUForm.get('name').errors?.required">Błędnie wprowadzone imię!</span> <br />
+  </div>
+
+  <label>Nazwisko: </label>
+  <input type="text" formControlName="surname" [class.is-invalid]="(BIUForm.get('surname').touched || BIUForm.get('surname').dirty) && !BIUForm.get('surname').valid" required/> <br />
+  <div class="isinvalid-feedback">
+    <span *ngIf="(BIUForm.get('surname').touched || BIUForm.get('surname').dirty) && BIUForm.get('surname').errors?.required">Błędnie wprowadzone nazwisko!</span> <br />
+  </div>
+
+  <label>E-mail: </label>
+  <input type="text" formControlName="email" [class.is-invalid]="(BIUForm.get('email').touched || BIUForm.get('email').dirty) && !BIUForm.controls.email.valid" required /> <br />
+  <div class="isinvalid-feedback">
+    <span *ngIf="(BIUForm.get('email').touched || BIUForm.get('email').dirty) && BIUForm.get('email').errors?.email">Błędnie wprowadzony email!</span> <br />
+  </div>
+
+  <label>Numer telefonu: </label>
+  <input type="text" formControlName="phone" [class.is-invalid]="(BIUForm.get('phone').touched || BIUForm.get('phone').dirty) && !BIUForm.get('phone').valid" required /> <br />
+  <div class="isinvalid-feedback">
+    <span *ngIf="(BIUForm.get('phone').touched || BIUForm.get('phone').dirty) && BIUForm.get('phone').errors?.required">Błędnie wprowadzony numer telefonu!</span> <br />
+  </div>
+
+  <div formGroupName="Passwords">
+    <label>Hasło: </label>
+    <input type="password" formControlName="password" [class.is-invalid]="(BIUForm.get('Passwords.password').touched || BIUForm.get('Passwords.password').dirty) && !BIUForm.get('Passwords.password').valid"  /> <br />
+    <div class="isinvalid-feedback">
+      <span *ngIf="BIUForm.get('Passwords.password').errors?.pattern && BIUForm.get('Passwords.password').errors?.required">Błędnie wprowadzone hasło!</span> <br />
+    </div>
+
+    <label>Powtórz hasło: </label>
+    <input type="password" formControlName="repassword" [class.is-invalid]="(BIUForm.get('Passwords.repassword').touched || BIUForm.get('Passwords.repassword').dirty) && !BIUForm.get('Passwords.repassword').valid" />
+    <div class="isinvalid-feedback">
+      <span *ngIf="BIUForm.get('Passwords').hasError('passwordMatch') || BIUForm.get('Passwords.repassword').errors?.required && BIUForm.get('Passwords.repassword').touched">Hasła różnią się!!</span> <br />
+    </div>
+  </div>
+
+  <fieldset >
+    <legend><h3>Zwierzę</h3></legend>
+    Pies: <input type="radio" name="pet" value="dog" formControlName="pet" /> <br />
+    Kot: <input type="radio" name="pet" value="cat" formControlName="pet" /> <br />
+    Inne: <input type="radio" name="pet" value="other" formControlName="pet" required/> <br />
+  </fieldset>
+
+  <fieldset formGroupName="address">
+    <legend><h3>Adres zamieszkania</h3></legend>
+    <label>Miasto: </label>
+    <input type="text" formControlName="city" [class.is-invalid]="(BIUForm.get('address.city').touched || BIUForm.get('address.city').dirty) && !BIUForm.get('address.city').valid" /> <br />
+    <div class="isinvalid-feedback">
+      <span *ngIf="(BIUForm.get('address.city').touched || BIUForm.get('address.city').dirty) && BIUForm.get('address.city').errors?.required">Błędnie wprowadzona nazwa miasta!</span> <br />
+    </div>
+
+    <label>Ulica: </label>
+    <input type="text" formControlName="street" [class.is-invalid]="(BIUForm.get('address.street').touched || BIUForm.get('address.street').dirty) && !BIUForm.get('address.street').valid" /> <br />
+    <div class="isinvalid-feedback">
+      <span *ngIf="(BIUForm.get('address.street').touched || BIUForm.get('address.street').dirty) && BIUForm.get('address.street').errors?.required">Błędnie wprowadzona nazwa ulicy!</span> <br />
+    </div>
+
+    <label>Numer domu: </label>
+    <input type="text" formControlName="building" [class.is-invalid]="!BIUForm.get('address.building').valid" /> <br />
+    <div class="isinvalid-feedback">
+      <span *ngIf="BIUForm.get('address.building').errors?.pattern">Błędnie wprowadzony numer domu!</span> <br />
+    </div>
+
+    <label>Numer mieszkania: </label>
+    <input type="text" formControlName="flatNo" [class.is-invalid]="!BIUForm.get('address.flatNo').valid" /> <br />
+    <div class="isinvalid-feedback">
+      <span *ngIf="BIUForm.get('address.flatNo').errors?.pattern">Błędnie wprowadzony numer mieszkania!</span> <br />
+    </div>
+  </fieldset>
+
+  <div [formGroupName]="consents">
+    <label>Newsletter: </label>
+    <input type="checkbox" value="true" formControlName="newsletter" [checked]="sms.check == 'true'" /> <br />
+
+    <label>SMS: </label>
+    <input type="checkbox" value="true" formControlName="sms" [hidden]="!BIUForm.get('phone').valid" [checked]="sms.check == 'true'"/> <br />
+  </div>
+
+  <button type="submit" [disabled]="!BIUForm.valid" (click)="onSubmit()">Przycisk</button>
+</form>
+
+<h4>Form Values</h4>
+{{ BIUForm.value | json}}
